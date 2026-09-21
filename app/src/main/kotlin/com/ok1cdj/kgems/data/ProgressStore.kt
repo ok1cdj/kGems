@@ -54,19 +54,23 @@ class ProgressStore(private val context: Context) {
 
     /** The saved game, or `null` if none has been stored yet (fresh install). */
     suspend fun loadGame(): GameState? {
-        val prefs = context.dataStore.data.first()
-        val m = prefs[GAME]?.let { Json.parseObject(it) } ?: return null
-        val boardStr = m["board"] as? String ?: return null
-        val rngStr = m["rng"] as? String ?: return null
-        val board = decodeBoard(boardStr) ?: return null
-        return GameState(
-            board = board,
-            rng = Rng.deserialize(rngStr),
-            score = (m["score"] as? Double)?.toInt() ?: 0,
-            highScore = (m["high"] as? Double)?.toInt() ?: 0,
-            shuffles = (m["shuffles"] as? Double)?.toInt() ?: 0,
-            hints = (m["hints"] as? Double)?.toInt() ?: 0,
-        )
+        val text = context.dataStore.data.first()[GAME] ?: return null
+        // A corrupt or truncated blob must degrade to a fresh game, never crash the
+        // app at launch — so every parse/decode failure collapses to null.
+        return runCatching {
+            val m = Json.parseObject(text)
+            val boardStr = m["board"] as? String ?: return@runCatching null
+            val rngStr = m["rng"] as? String ?: return@runCatching null
+            val board = decodeBoard(boardStr) ?: return@runCatching null
+            GameState(
+                board = board,
+                rng = Rng.deserialize(rngStr),
+                score = (m["score"] as? Double)?.toInt() ?: 0,
+                highScore = (m["high"] as? Double)?.toInt() ?: 0,
+                shuffles = (m["shuffles"] as? Double)?.toInt() ?: 0,
+                hints = (m["hints"] as? Double)?.toInt() ?: 0,
+            )
+        }.getOrNull()
     }
 
     suspend fun saveGame(state: GameState) {

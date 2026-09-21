@@ -31,9 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.res.stringResource
-import com.mudita.mmd.components.buttons.ButtonMMD
 import com.mudita.mmd.components.text.TextMMD
 import com.ok1cdj.kgems.R
 import com.ok1cdj.kgems.data.Settings
@@ -48,15 +46,8 @@ fun SettingsDialog(
     onResetHighScore: () -> Unit,
     onDismiss: () -> Unit,
 ) {
-    Dialog(onDismissRequest = onDismiss) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .border(1.dp, Color.Black, RoundedCornerShape(12.dp))
-                .background(Color.White, RoundedCornerShape(12.dp))
-                .padding(16.dp),
-        ) {
-            TextMMD(text = stringResource(R.string.settings), fontSize = 20.sp, fontWeight = FontWeight.Bold)
+    MmdDialog(onDismiss = onDismiss) {
+        TextMMD(text = stringResource(R.string.settings), fontSize = 20.sp, fontWeight = FontWeight.Bold)
             Spacer(Modifier.height(12.dp))
 
             TextMMD(text = stringResource(R.string.frame_delay_label), fontSize = 16.sp, fontWeight = FontWeight.Bold)
@@ -91,10 +82,9 @@ fun SettingsDialog(
             )
 
             Spacer(Modifier.height(16.dp))
-            DialogWideButton(stringResource(R.string.reset_high)) { onResetHighScore() }
+            MmdButton(stringResource(R.string.reset_high), modifier = Modifier.fillMaxWidth()) { onResetHighScore() }
             Spacer(Modifier.height(8.dp))
-            DialogWideButton(stringResource(R.string.close), onClick = onDismiss)
-        }
+            MmdButton(stringResource(R.string.close), modifier = Modifier.fillMaxWidth(), onClick = onDismiss)
     }
 }
 
@@ -121,19 +111,6 @@ private fun SegmentButton(text: String, selected: Boolean, modifier: Modifier, o
             fontWeight = FontWeight.Bold,
             color = if (selected) Color.White else Color.Black,
         )
-    }
-}
-
-@Composable
-private fun DialogWideButton(text: String, onClick: () -> Unit) {
-    ButtonMMD(
-        onClick = onClick,
-        modifier = Modifier.fillMaxWidth().height(56.dp).border(1.dp, Color.Black, RoundedCornerShape(8.dp)),
-        shape = RoundedCornerShape(8.dp),
-    ) {
-        androidx.compose.foundation.layout.Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-            TextMMD(text = text, fontSize = 15.sp, fontWeight = FontWeight.Bold)
-        }
     }
 }
 

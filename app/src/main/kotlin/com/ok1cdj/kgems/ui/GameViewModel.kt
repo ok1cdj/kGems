@@ -17,6 +17,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.ok1cdj.kgems.core.Board
+import com.ok1cdj.kgems.core.CELLS
 import com.ok1cdj.kgems.core.Engine
 import com.ok1cdj.kgems.core.GameState
 import com.ok1cdj.kgems.core.Generator
@@ -40,9 +41,19 @@ class GameViewModel(app: Application) : AndroidViewModel(app) {
 
     private val store = ProgressStore(app)
 
+    /** The last snapshot handed to the store, so identical writes are skipped. */
+    private var lastSaved: GameState? = null
+
     private var rng = Rng(System.nanoTime())
 
-    var board by mutableStateOf(Generator.newBoard(rng))
+    // The authoritative settled board — always full (gem types 0..6) and the only
+    // thing persisted. `board` below is the *display* board, which briefly holds
+    // transient animation frames (EMPTY holes) during a move; persistence must never
+    // capture those. This starts as a throwaway placeholder that is never shown (the
+    // UI waits for [loaded]); init installs the saved or freshly-generated board.
+    private var settledBoard: Board = Board(ByteArray(CELLS))
+
+    var board by mutableStateOf(settledBoard)
         private set
     var score by mutableStateOf(0)
         private set
@@ -72,6 +83,10 @@ class GameViewModel(app: Application) : AndroidViewModel(app) {
     var moveTick by mutableStateOf(0)
         private set
 
+    /** False until the saved game (if any) has loaded; input is ignored until then. */
+    var loaded by mutableStateOf(false)
+        private set
+
     val haptics: Boolean get() = settings.haptics
     val showHint: Boolean get() = settings.showHint
     val keepScreenOn: Boolean get() = settings.keepScreenOn
@@ -82,14 +97,22 @@ class GameViewModel(app: Application) : AndroidViewModel(app) {
             val saved = store.loadGame()
             if (saved != null) {
                 rng = saved.rng
-                board = saved.board
                 score = saved.score
                 highScore = saved.highScore
                 shuffles = saved.shuffles
                 hints = saved.hints
+                settledBoard = saved.board
+                board = saved.board
+                lastSaved = saved
                 // A stored board is always playable, but guard against corruption.
                 ensurePlayable()
+            } else {
+                // Fresh install: generate the first board now (not eagerly, so a
+                // resumed game never pays for a board it immediately discards).
+                settledBoard = Generator.newBoard(rng)
+                board = settledBoard
             }
+            loaded = true
         }
     }
 
@@ -97,7 +120,7 @@ class GameViewModel(app: Application) : AndroidViewModel(app) {
 
     /** Handle a tap on the cell at linear index [i]. */
     fun onCellTap(i: Int) {
-        if (busy) return
+        if (busy || !loaded) return
         hint = null
         val sel = selected
         when {
@@ -121,38 +144,48 @@ class GameViewModel(app: Application) : AndroidViewModel(app) {
         // "invalid swaps do nothing").
         val result = Engine.apply(board, Move(a, b), rng) ?: return
         selected = null
+
+        // Commit the move's logical outcome at once. apply() has already advanced
+        // rng to the settled result, so score, the settled board and the auto-
+        // shuffle must all advance together and be persisted now — otherwise a
+        // pause mid-animation would save a board that disagrees with rng. Only the
+        // *display* animates afterwards; the saved state is already final.
+        score += result.score
+        if (score > highScore) highScore = score
+        settledBoard = result.board
+        ensurePlayable()
+        val finalBoard = settledBoard
+        persist()
+
         busy = true
         viewModelScope.launch {
             val step = settings.frameDelayMs
-            if (step <= 0) {
-                board = result.board
-            } else {
+            if (step > 0) {
                 for (frame in result.frames) {
                     board = frame
                     delay(step.toLong())
                 }
             }
-            score += result.score
-            if (score > highScore) highScore = score
+            // Land on the settled board (also reveals a reshuffle, if one happened).
+            board = finalBoard
             moveTick++
-            ensurePlayable()
             busy = false
-            persist()
         }
     }
 
-    /** Reshuffle until the board has a legal move (auto, never ends the game). */
+    /** Reshuffle the settled board until it has a legal move (auto, never ends). */
     private fun ensurePlayable() {
-        while (!Engine.hasValidMove(board)) {
-            board = Generator.shuffle(board, rng)
+        while (!Engine.hasValidMove(settledBoard)) {
+            settledBoard = Generator.shuffle(settledBoard, rng)
+            board = settledBoard
             shuffles++
         }
     }
 
-    /** Show a legal swap and count it; no-op while animating. */
+    /** Show a legal swap and count it; no-op while animating or before load. */
     fun showHint() {
-        if (busy) return
-        val m = Engine.findHint(board) ?: return
+        if (busy || !loaded) return
+        val m = Engine.findHint(settledBoard) ?: return
         hint = m
         selected = null
         hints++
@@ -161,9 +194,10 @@ class GameViewModel(app: Application) : AndroidViewModel(app) {
 
     /** Start a brand-new game (fresh seed, counters reset; high score kept). */
     fun newGame() {
-        if (busy) return
+        if (busy || !loaded) return
         rng = Rng(System.nanoTime())
-        board = Generator.newBoard(rng)
+        settledBoard = Generator.newBoard(rng)
+        board = settledBoard
         score = 0
         shuffles = 0
         hints = 0
@@ -180,7 +214,7 @@ class GameViewModel(app: Application) : AndroidViewModel(app) {
     fun setKeepScreenOn(on: Boolean) = updateSettings(settings.copy(keepScreenOn = on))
 
     fun resetHighScore() {
-        highScore = score
+        highScore = 0
         persist()
     }
 
@@ -191,16 +225,34 @@ class GameViewModel(app: Application) : AndroidViewModel(app) {
 
     // --- persistence ----------------------------------------------------------
 
-    /** Snapshot and flush the whole game. Called after each move and on pause. */
+    /**
+     * Snapshot and flush the whole game. Called after each move and on pause.
+     *
+     * Always persists [settledBoard] (never the transient display [board]), so a
+     * pause mid-animation can't save a board with EMPTY holes or one that is out
+     * of step with [rng]. Identical back-to-back snapshots (e.g. a move followed
+     * immediately by the on-pause save) are skipped to avoid a redundant write.
+     */
     fun persist() {
+        if (!loaded) return
         val snapshot = GameState(
-            board = board,
+            board = settledBoard,
             rng = rng.copy(),
             score = score,
             highScore = highScore,
             shuffles = shuffles,
             hints = hints,
         )
+        if (snapshot.sameStateAs(lastSaved)) return
+        lastSaved = snapshot
         viewModelScope.launch { store.saveGame(snapshot) }
     }
+
+    /** Content comparison (Board `==` is reference identity, so compare cells). */
+    private fun GameState.sameStateAs(other: GameState?): Boolean =
+        other != null &&
+            score == other.score && highScore == other.highScore &&
+            shuffles == other.shuffles && hints == other.hints &&
+            rng.state == other.rng.state &&
+            board.cells.contentEquals(other.board.cells)
 }

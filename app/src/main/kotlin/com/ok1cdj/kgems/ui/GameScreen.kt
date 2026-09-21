@@ -12,7 +12,6 @@ package com.ok1cdj.kgems.ui
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,7 +23,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -44,12 +42,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.mudita.mmd.components.buttons.ButtonMMD
 import com.mudita.mmd.components.text.TextMMD
 import com.ok1cdj.kgems.R
 import com.ok1cdj.kgems.core.EMPTY
 import com.ok1cdj.kgems.core.SIZE
 import com.ok1cdj.kgems.core.colOf
+import com.ok1cdj.kgems.core.indexOf
 import com.ok1cdj.kgems.core.rowOf
 
 @Composable
@@ -87,7 +85,13 @@ fun GameScreen(vm: GameViewModel, onAbout: () -> Unit, onSettings: () -> Unit) {
 
         Spacer(Modifier.weight(1f))
 
-        BoardCanvas(vm)
+        // Reserve the board's square until the saved game has loaded, so the
+        // placeholder board is never flashed before the real one arrives.
+        if (vm.loaded) {
+            BoardCanvas(vm)
+        } else {
+            Box(Modifier.fillMaxWidth().padding(horizontal = 16.dp).aspectRatio(1f))
+        }
 
         Spacer(Modifier.weight(1f))
 
@@ -97,13 +101,13 @@ fun GameScreen(vm: GameViewModel, onAbout: () -> Unit, onSettings: () -> Unit) {
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            GameButton(stringResource(R.string.new_game), modifier = Modifier.weight(1f)) {
+            MmdButton(stringResource(R.string.new_game), modifier = Modifier.weight(1f)) {
                 if (vm.score > 0) confirmNew = true else vm.newGame()
             }
             if (vm.showHint) {
-                GameButton(stringResource(R.string.hint), enabled = !vm.busy, modifier = Modifier.weight(1f), onClick = vm::showHint)
+                MmdButton(stringResource(R.string.hint), enabled = !vm.busy, modifier = Modifier.weight(1f), onClick = vm::showHint)
             }
-            GameButton(stringResource(R.string.about), modifier = Modifier.weight(1f), onClick = onAbout)
+            MmdButton(stringResource(R.string.about), modifier = Modifier.weight(1f), onClick = onAbout)
         }
     }
 
@@ -136,13 +140,11 @@ private fun BoardCanvas(vm: GameViewModel) {
             .pointerInput(vm) {
                 val cell = size.width / SIZE.toFloat()
                 detectTapGestures { off ->
-                    val col = (off.x / cell).toInt()
-                    val row = (off.y / cell).toInt()
-                    if (col in 0 until SIZE && row in 0 until SIZE) {
-                        vm.onCellTap(row * SIZE + col)
-                    } else {
-                        vm.clearSelection()
-                    }
+                    // The canvas is exactly the board, so a tap is always in bounds;
+                    // coerce the edge pixel (off == size) back onto the last cell.
+                    val col = (off.x / cell).toInt().coerceIn(0, SIZE - 1)
+                    val row = (off.y / cell).toInt().coerceIn(0, SIZE - 1)
+                    vm.onCellTap(indexOf(row, col))
                 }
             },
     ) {
@@ -188,27 +190,7 @@ private fun BoardCanvas(vm: GameViewModel) {
     }
 }
 
-// --- shared button + dialog --------------------------------------------------
-
-@Composable
-private fun GameButton(
-    text: String,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    onClick: () -> Unit,
-) {
-    ButtonMMD(
-        onClick = { if (enabled) onClick() },
-        modifier = modifier
-            .height(56.dp)
-            .border(1.dp, if (enabled) Color.Black else Color.Gray, RoundedCornerShape(8.dp)),
-        shape = RoundedCornerShape(8.dp),
-    ) {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            TextMMD(text = text, fontSize = 15.sp, fontWeight = FontWeight.Bold)
-        }
-    }
-}
+// --- new-game confirmation ---------------------------------------------------
 
 @Composable
 fun ConfirmDialog(
@@ -218,35 +200,14 @@ fun ConfirmDialog(
     onConfirm: () -> Unit,
     onDismiss: () -> Unit,
 ) {
-    androidx.compose.ui.window.Dialog(onDismissRequest = onDismiss) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .border(1.dp, Color.Black, RoundedCornerShape(12.dp))
-                .background(Color.White, RoundedCornerShape(12.dp))
-                .padding(16.dp),
-        ) {
-            TextMMD(text = title, fontSize = 18.sp, fontWeight = FontWeight.Bold)
-            Spacer(Modifier.height(8.dp))
-            TextMMD(text = body, fontSize = 14.sp)
-            Spacer(Modifier.height(16.dp))
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                DialogButton(stringResource(R.string.cancel), modifier = Modifier.weight(1f), onClick = onDismiss)
-                DialogButton(confirmLabel, modifier = Modifier.weight(1f), onClick = onConfirm)
-            }
-        }
-    }
-}
-
-@Composable
-private fun DialogButton(text: String, modifier: Modifier = Modifier, onClick: () -> Unit) {
-    ButtonMMD(
-        onClick = onClick,
-        modifier = modifier.height(56.dp).border(1.dp, Color.Black, RoundedCornerShape(8.dp)),
-        shape = RoundedCornerShape(8.dp),
-    ) {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            TextMMD(text = text, fontSize = 15.sp, fontWeight = FontWeight.Bold)
+    MmdDialog(onDismiss = onDismiss) {
+        TextMMD(text = title, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+        Spacer(Modifier.height(8.dp))
+        TextMMD(text = body, fontSize = 14.sp)
+        Spacer(Modifier.height(16.dp))
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            MmdButton(stringResource(R.string.cancel), modifier = Modifier.weight(1f), onClick = onDismiss)
+            MmdButton(confirmLabel, modifier = Modifier.weight(1f), onClick = onConfirm)
         }
     }
 }
