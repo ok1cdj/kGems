@@ -44,6 +44,7 @@ fun SettingsDialog(
     onFrameDelay: (Int) -> Unit,
     onHaptics: (Boolean) -> Unit,
     onShowHint: (Boolean) -> Unit,
+    onKeepScreenOn: (Boolean) -> Unit,
     onResetHighScore: () -> Unit,
     onDismiss: () -> Unit,
 ) {
@@ -80,6 +81,13 @@ fun SettingsDialog(
                 sub = stringResource(R.string.show_hint_sub),
                 checked = settings.showHint,
                 onChange = onShowHint,
+            )
+            Spacer(Modifier.height(8.dp))
+            ToggleRow(
+                label = stringResource(R.string.keep_screen_on_label),
+                sub = stringResource(R.string.keep_screen_on_sub),
+                checked = settings.keepScreenOn,
+                onChange = onKeepScreenOn,
             )
 
             Spacer(Modifier.height(16.dp))

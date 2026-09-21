@@ -23,8 +23,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -59,6 +61,12 @@ private fun App() {
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
+    // Keep the display awake while playing, if enabled. keepScreenOn on the
+    // window's view holds a wake lock only while the window is visible and needs
+    // no permission — it clears itself when the app leaves the foreground.
+    val view = LocalView.current
+    LaunchedEffect(vm.keepScreenOn) { view.keepScreenOn = vm.keepScreenOn }
+
     // targetSdk 37 forces edge-to-edge, so inset the whole app below the system
     // bars — otherwise the header sits under the status bar and swallows taps.
     Box(
@@ -77,6 +85,7 @@ private fun App() {
             onFrameDelay = vm::setFrameDelay,
             onHaptics = vm::setHaptics,
             onShowHint = vm::setShowHint,
+            onKeepScreenOn = vm::setKeepScreenOn,
             onResetHighScore = vm::resetHighScore,
             onDismiss = { showSettings = false },
         )

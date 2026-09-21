@@ -28,6 +28,8 @@
     <string name="haptics_sub">Buzz on each completed move</string>
     <string name="show_hint_label">Show Hint button</string>
     <string name="show_hint_sub">Offer a hint during play</string>
+    <string name="keep_screen_on_label">Keep screen on</string>
+    <string name="keep_screen_on_sub">Don\'t dim or lock the screen while playing</string>
     <string name="reset_high">Reset high score</string>
 
     <!-- About dialog -->

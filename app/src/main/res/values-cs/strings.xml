@@ -29,6 +29,8 @@
     <string name="haptics_sub">Vibrace při každém dokončeném tahu</string>
     <string name="show_hint_label">Zobrazit tlačítko Nápověda</string>
     <string name="show_hint_sub">Nabídnout nápovědu během hry</string>
+    <string name="keep_screen_on_label">Nezhasínat obrazovku</string>
+    <string name="keep_screen_on_sub">Během hraní obrazovku nezhasínat ani nezamykat</string>
     <string name="reset_high">Vynulovat nejlepší skóre</string>
 
     <!-- About dialog -->

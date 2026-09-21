@@ -29,11 +29,14 @@ import kotlinx.coroutines.flow.first
  *   skip the intermediate frames entirely and snap to the settled board.
  * @property haptics buzz on each completed move.
  * @property showHint whether the Hint button is offered during play.
+ * @property keepScreenOn keep the display awake while the game is in front
+ *   (uses the window's keep-screen-on flag — needs no permission).
  */
 data class Settings(
     val frameDelayMs: Int = 500,
     val haptics: Boolean = true,
     val showHint: Boolean = true,
+    val keepScreenOn: Boolean = false,
 )
 
 private val Context.dataStore by preferencesDataStore(name = "progress")
@@ -89,6 +92,7 @@ class ProgressStore(private val context: Context) {
             frameDelayMs = (m["frameDelayMs"] as? Double)?.toInt() ?: defaults.frameDelayMs,
             haptics = m["haptics"] as? Boolean ?: defaults.haptics,
             showHint = m["showHint"] as? Boolean ?: defaults.showHint,
+            keepScreenOn = m["keepScreenOn"] as? Boolean ?: defaults.keepScreenOn,
         )
     }
 
@@ -99,6 +103,7 @@ class ProgressStore(private val context: Context) {
                     "frameDelayMs" to s.frameDelayMs,
                     "haptics" to s.haptics,
                     "showHint" to s.showHint,
+                    "keepScreenOn" to s.keepScreenOn,
                 )
             )
         }

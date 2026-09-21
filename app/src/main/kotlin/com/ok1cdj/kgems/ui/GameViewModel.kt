@@ -74,6 +74,7 @@ class GameViewModel(app: Application) : AndroidViewModel(app) {
 
     val haptics: Boolean get() = settings.haptics
     val showHint: Boolean get() = settings.showHint
+    val keepScreenOn: Boolean get() = settings.keepScreenOn
 
     init {
         viewModelScope.launch {
@@ -176,6 +177,7 @@ class GameViewModel(app: Application) : AndroidViewModel(app) {
     fun setFrameDelay(ms: Int) = updateSettings(settings.copy(frameDelayMs = ms))
     fun setHaptics(on: Boolean) = updateSettings(settings.copy(haptics = on))
     fun setShowHint(on: Boolean) = updateSettings(settings.copy(showHint = on))
+    fun setKeepScreenOn(on: Boolean) = updateSettings(settings.copy(keepScreenOn = on))
 
     fun resetHighScore() {
         highScore = score
