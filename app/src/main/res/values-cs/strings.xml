@@ -34,7 +34,7 @@
     <!-- About dialog -->
     <string name="about_title">kGems</string>
     <string name="about_version">Verze %1$s</string>
-    <string name="about_author">od Ondřeje Koloničného, OK1CDJ</string>
+    <string name="about_author">od Ondřeje Koloničného</string>
     <string name="about_desc">Logická hra na skládání trojic pro Mudita Kompakt. Prohoď dva sousední kameny tak, aby vznikla řada tří a více stejných; ty zmizí, ostatní spadnou dolů a shora napadají nové — často se spustí kaskáda. Plně offline — bez sítě, bez oprávnění.</string>
     <string name="about_license">Licence: GPL-3.0</string>
     <string name="about_credits">Inspirováno hrou Shariki, původní hrou na skládání trojic od Eugena Alemzhina (1994).</string>

@@ -1,5 +1,7 @@
 # kGems
 
+<img src="docs/icon.png" width="96" align="right" alt="kGems icon" />
+
 **kGems** is a match-3 puzzle for the
 [Mudita Kompakt](https://mudita.com/) e-ink phone (MuditaOS-K, AOSP,
 **no Google Services**). Swap two adjacent gems to line up three or more of a
@@ -8,6 +10,16 @@ keeps scoring as long as new matches form. Fully offline: **no network, no
 permissions, no services.**
 
 [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://www.buymeacoffee.com/ok1cdj)
+
+<p align="center">
+  <img src="docs/screenshot-game.png" width="240" alt="kGems board" />
+  &nbsp;
+  <img src="docs/screenshot-settings.png" width="240" alt="Settings" />
+  &nbsp;
+  <img src="docs/screenshot-about.png" width="240" alt="About" />
+</p>
+
+<p align="center"><em>Running on the Mudita Kompakt (480×800 e-ink).</em></p>
 
 ## What it does
 

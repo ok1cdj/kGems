@@ -33,7 +33,7 @@
     <!-- About dialog -->
     <string name="about_title">kGems</string>
     <string name="about_version">Version %1$s</string>
-    <string name="about_author">by Ondřej Koloničný, OK1CDJ</string>
+    <string name="about_author">by Ondřej Koloničný</string>
     <string name="about_desc">A match-3 puzzle for the Mudita Kompakt. Swap two adjacent gems to line up three or more of a kind; they clear, the rest fall, and fresh gems drop in — often triggering a cascade. Fully offline — no network, no permissions.</string>
     <string name="about_license">License: GPL-3.0</string>
     <string name="about_credits">Inspired by Shariki, the original match-3 game by Eugene Alemzhin (1994).</string>
