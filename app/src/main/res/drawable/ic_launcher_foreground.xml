@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- kGems launcher foreground: a white rounded tile bearing a black brilliant-cut
+     gem — the in-game "gem" motif (see GemGlyphs type 5) — on the black adaptive
+     background. Drawn as vectors; no third-party artwork. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- white rounded tile -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M38,28 L70,28 A10,10 0 0 1 80,38 L80,70 A10,10 0 0 1 70,80 L38,80 A10,10 0 0 1 28,70 L28,38 A10,10 0 0 1 38,28 Z" />
+
+    <!-- black brilliant-cut gem: flat table on top, tapering to a point -->
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M37.2,41.2 L70.8,41.2 L54,74 Z" />
+
+    <!-- white facet lines: girdle + two crown facets -->
+    <path
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="2"
+        android:pathData="M42.8,52.4 L65.2,52.4" />
+    <path
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="2"
+        android:pathData="M48.4,41.2 L54,74" />
+    <path
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="2"
+        android:pathData="M59.6,41.2 L54,74" />
+</vector>

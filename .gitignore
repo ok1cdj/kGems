@@ -1,0 +1,23 @@
+# Secrets & signing — NEVER commit
+local.properties
+keystore/
+*.jks
+*.keystore
+
+# Build output
+.gradle/
+build/
+app/build/
+core/build/
+captures/
+kgems-*.apk
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+.DS_Store
+*.log
+
+# Local tooling & planning scratch — not part of the product
+.claude/
+PLAN.md

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">kGems</string>
+
+    <!-- Header / score line: score · high · shuffles -->
+    <string name="stats">Score %1$d · High %2$d · Shuffles %3$d</string>
+
+    <!-- Controls -->
+    <string name="new_game">New Game</string>
+    <string name="hint">Hint</string>
+    <string name="about">About</string>
+    <string name="settings">Settings</string>
+    <string name="close">Close</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- New-game confirmation -->
+    <string name="new_game_confirm_title">New game?</string>
+    <string name="new_game_confirm_body">This ends the current game (score %1$d).</string>
+    <string name="new_game_confirm_ok">Start</string>
+
+    <!-- Settings -->
+    <string name="frame_delay_label">Animation speed</string>
+    <string name="frame_delay_sub">Delay between cascade steps</string>
+    <string name="delay_250">250 ms</string>
+    <string name="delay_500">500 ms</string>
+    <string name="delay_off">Instant</string>
+    <string name="haptics_label">Haptic feedback</string>
+    <string name="haptics_sub">Buzz on each completed move</string>
+    <string name="show_hint_label">Show Hint button</string>
+    <string name="show_hint_sub">Offer a hint during play</string>
+    <string name="reset_high">Reset high score</string>
+
+    <!-- About dialog -->
+    <string name="about_title">kGems</string>
+    <string name="about_version">Version %1$s</string>
+    <string name="about_author">by Ondřej Koloničný, OK1CDJ</string>
+    <string name="about_desc">A match-3 puzzle for the Mudita Kompakt. Swap two adjacent gems to line up three or more of a kind; they clear, the rest fall, and fresh gems drop in — often triggering a cascade. Fully offline — no network, no permissions.</string>
+    <string name="about_license">License: GPL-3.0</string>
+    <string name="about_credits">Inspired by Shariki, the original match-3 game by Eugene Alemzhin (1994).</string>
+    <string name="about_github">GitHub</string>
+    <string name="about_coffee">Buy me a coffee</string>
+</resources>

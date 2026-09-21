@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  kGems — 7 gem glyph preview (Phase 0).
+  Faithful render of GemGlyphs.kt: geometry authored in a 60-unit reference cell,
+  outline/detail/hatch stroke = 3 units, hatch spacing = 6 units, round joins,
+  1-bit black/white, no antialiasing (shape-rendering=crispEdges).
+  <use> is scaled tileSize/60 so stroke width scales exactly as in Kotlin.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="1064" height="620"
+     viewBox="0 0 1064 620" shape-rendering="crispEdges">
+  <rect width="1064" height="620" fill="#ffffff"/>
+
+  <defs>
+    <!-- all glyphs authored in a 0..60 box, stroke-width 3, round joins -->
+    <g id="g0" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round">
+      <circle cx="30" cy="30" r="25"/>
+    </g>
+
+    <g id="g1" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round">
+      <circle cx="30" cy="30" r="25"/>
+      <line x1="30" y1="9" x2="30" y2="51"/>
+      <line x1="9" y1="30" x2="51" y2="30"/>
+    </g>
+
+    <clipPath id="clip2" clipPathUnits="userSpaceOnUse"><circle cx="30" cy="30" r="25"/></clipPath>
+    <g id="g2" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round">
+      <g clip-path="url(#clip2)">
+        <line x1="0" y1="0" x2="-60" y2="60"/>
+        <line x1="6" y1="0" x2="-54" y2="60"/>
+        <line x1="12" y1="0" x2="-48" y2="60"/>
+        <line x1="18" y1="0" x2="-42" y2="60"/>
+        <line x1="24" y1="0" x2="-36" y2="60"/>
+        <line x1="30" y1="0" x2="-30" y2="60"/>
+        <line x1="36" y1="0" x2="-24" y2="60"/>
+        <line x1="42" y1="0" x2="-18" y2="60"/>
+        <line x1="48" y1="0" x2="-12" y2="60"/>
+        <line x1="54" y1="0" x2="-6" y2="60"/>
+        <line x1="60" y1="0" x2="0" y2="60"/>
+        <line x1="66" y1="0" x2="6" y2="60"/>
+        <line x1="72" y1="0" x2="12" y2="60"/>
+        <line x1="78" y1="0" x2="18" y2="60"/>
+        <line x1="84" y1="0" x2="24" y2="60"/>
+        <line x1="90" y1="0" x2="30" y2="60"/>
+        <line x1="96" y1="0" x2="36" y2="60"/>
+        <line x1="102" y1="0" x2="42" y2="60"/>
+        <line x1="108" y1="0" x2="48" y2="60"/>
+        <line x1="114" y1="0" x2="54" y2="60"/>
+        <line x1="120" y1="0" x2="60" y2="60"/>
+      </g>
+      <circle cx="30" cy="30" r="25"/>
+    </g>
+
+    <g id="g3" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round">
+      <polygon points="30,5 55.02,52.02 4.98,52.02"/>
+      <polygon points="30,22.02 43.02,45 16.98,45"/>
+    </g>
+
+    <g id="g4" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round">
+      <polygon points="30,4.02 55.98,30 30,55.98 4.02,30"/>
+      <line x1="30" y1="13.98" x2="30" y2="46.02"/>
+      <line x1="13.98" y1="30" x2="46.02" y2="30"/>
+    </g>
+
+    <g id="g5" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round">
+      <polygon points="9,13.98 51,13.98 30,55.02"/>
+      <line x1="16.02" y1="28.02" x2="43.98" y2="28.02"/>
+      <line x1="22.98" y1="13.98" x2="30" y2="55.02"/>
+      <line x1="37.02" y1="13.98" x2="30" y2="55.02"/>
+    </g>
+
+    <g id="g6" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round">
+      <rect x="4.98" y="4.98" width="50.04" height="50.04" rx="7.02" ry="7.02"/>
+      <line x1="22.02" y1="4.98" x2="22.02" y2="55.02"/>
+      <line x1="37.98" y1="4.98" x2="37.98" y2="55.02"/>
+      <line x1="4.98" y1="22.02" x2="55.02" y2="22.02"/>
+      <line x1="4.98" y1="37.98" x2="55.02" y2="37.98"/>
+    </g>
+  </defs>
+
+  <g fill="#000000" font-family="monospace" font-size="16" shape-rendering="auto">
+    <text x="16" y="26">kGems — 7 gem glyphs (GemGlyphs.kt render)</text>
+    <text x="16" y="120">normal</text>
+    <text x="16" y="270">selected (inverted)</text>
+    <text x="16" y="430">board strip @ 56dp cells (true size)</text>
+  </g>
+
+  <!-- ===== Row A: normal (black glyph on white), 132px tiles, scale 132/60=2.2 ===== -->
+  <g>
+    <g transform="translate(24,40)"><rect width="132" height="132" fill="#fff" stroke="#000" stroke-width="1"/><g color="#000" transform="scale(2.2)"><use href="#g0"/></g><text x="4" y="128" fill="#000" font-family="monospace" font-size="13" shape-rendering="auto">0</text></g>
+    <g transform="translate(170,40)"><rect width="132" height="132" fill="#fff" stroke="#000" stroke-width="1"/><g color="#000" transform="scale(2.2)"><use href="#g1"/></g><text x="4" y="128" fill="#000" font-family="monospace" font-size="13" shape-rendering="auto">1</text></g>
+    <g transform="translate(316,40)"><rect width="132" height="132" fill="#fff" stroke="#000" stroke-width="1"/><g color="#000" transform="scale(2.2)"><use href="#g2"/></g><text x="4" y="128" fill="#000" font-family="monospace" font-size="13" shape-rendering="auto">2</text></g>
+    <g transform="translate(462,40)"><rect width="132" height="132" fill="#fff" stroke="#000" stroke-width="1"/><g color="#000" transform="scale(2.2)"><use href="#g3"/></g><text x="4" y="128" fill="#000" font-family="monospace" font-size="13" shape-rendering="auto">3</text></g>
+    <g transform="translate(608,40)"><rect width="132" height="132" fill="#fff" stroke="#000" stroke-width="1"/><g color="#000" transform="scale(2.2)"><use href="#g4"/></g><text x="4" y="128" fill="#000" font-family="monospace" font-size="13" shape-rendering="auto">4</text></g>
+    <g transform="translate(754,40)"><rect width="132" height="132" fill="#fff" stroke="#000" stroke-width="1"/><g color="#000" transform="scale(2.2)"><use href="#g5"/></g><text x="4" y="128" fill="#000" font-family="monospace" font-size="13" shape-rendering="auto">5</text></g>
+    <g transform="translate(900,40)"><rect width="132" height="132" fill="#fff" stroke="#000" stroke-width="1"/><g color="#000" transform="scale(2.2)"><use href="#g6"/></g><text x="4" y="128" fill="#000" font-family="monospace" font-size="13" shape-rendering="auto">6</text></g>
+  </g>
+
+  <!-- ===== Row B: selected/inverted (white glyph on black) ===== -->
+  <g>
+    <g transform="translate(24,190)"><rect width="132" height="132" fill="#000"/><g color="#fff" transform="scale(2.2)"><use href="#g0"/></g></g>
+    <g transform="translate(170,190)"><rect width="132" height="132" fill="#000"/><g color="#fff" transform="scale(2.2)"><use href="#g1"/></g></g>
+    <g transform="translate(316,190)"><rect width="132" height="132" fill="#000"/><g color="#fff" transform="scale(2.2)"><use href="#g2"/></g></g>
+    <g transform="translate(462,190)"><rect width="132" height="132" fill="#000"/><g color="#fff" transform="scale(2.2)"><use href="#g3"/></g></g>
+    <g transform="translate(608,190)"><rect width="132" height="132" fill="#000"/><g color="#fff" transform="scale(2.2)"><use href="#g4"/></g></g>
+    <g transform="translate(754,190)"><rect width="132" height="132" fill="#000"/><g color="#fff" transform="scale(2.2)"><use href="#g5"/></g></g>
+    <g transform="translate(900,190)"><rect width="132" height="132" fill="#000"/><g color="#fff" transform="scale(2.2)"><use href="#g6"/></g></g>
+  </g>
+
+  <!-- ===== Row C: true 56px cells, scale 56/60 ===== -->
+  <g transform="translate(16,450)">
+    <g transform="translate(0,0)"><rect width="56" height="56" fill="#fff" stroke="#000" stroke-width="1"/><g color="#000" transform="scale(0.9333)"><use href="#g0"/></g></g>
+    <g transform="translate(56,0)"><rect width="56" height="56" fill="#fff" stroke="#000" stroke-width="1"/><g color="#000" transform="scale(0.9333)"><use href="#g1"/></g></g>
+    <g transform="translate(112,0)"><rect width="56" height="56" fill="#fff" stroke="#000" stroke-width="1"/><g color="#000" transform="scale(0.9333)"><use href="#g2"/></g></g>
+    <g transform="translate(168,0)"><rect width="56" height="56" fill="#fff" stroke="#000" stroke-width="1"/><g color="#000" transform="scale(0.9333)"><use href="#g3"/></g></g>
+    <g transform="translate(224,0)"><rect width="56" height="56" fill="#fff" stroke="#000" stroke-width="1"/><g color="#000" transform="scale(0.9333)"><use href="#g4"/></g></g>
+    <g transform="translate(280,0)"><rect width="56" height="56" fill="#fff" stroke="#000" stroke-width="1"/><g color="#000" transform="scale(0.9333)"><use href="#g5"/></g></g>
+    <g transform="translate(336,0)"><rect width="56" height="56" fill="#fff" stroke="#000" stroke-width="1"/><g color="#000" transform="scale(0.9333)"><use href="#g6"/></g></g>
+    <g transform="translate(392,0)"><rect width="56" height="56" fill="#000"/><g color="#fff" transform="scale(0.9333)"><use href="#g2"/></g></g>
+    <g transform="translate(448,0)"><rect width="56" height="56" fill="#000"/><g color="#fff" transform="scale(0.9333)"><use href="#g6"/></g></g>
+  </g>
+</svg>

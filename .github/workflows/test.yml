@@ -1,0 +1,25 @@
+name: Test
+
+# Runs the pure-JVM match-3 engine test suite on every push to main and on every
+# PR. No emulator, no Android SDK — :core is plain Kotlin/JVM.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  core-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Run engine tests
+        run: |
+          chmod +x gradlew
+          ./gradlew :core:test --no-daemon

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- app_name is a proper noun — same in Czech. -->
+    <string name="app_name">kGems</string>
+
+    <!-- Header / score line: skóre · nejlepší · zamíchání -->
+    <string name="stats">Skóre %1$d · Nejlepší %2$d · Zamíchání %3$d</string>
+
+    <!-- Controls -->
+    <string name="new_game">Nová hra</string>
+    <string name="hint">Nápověda</string>
+    <string name="about">O aplikaci</string>
+    <string name="settings">Nastavení</string>
+    <string name="close">Zavřít</string>
+    <string name="cancel">Zrušit</string>
+
+    <!-- New-game confirmation -->
+    <string name="new_game_confirm_title">Nová hra?</string>
+    <string name="new_game_confirm_body">Tímto ukončíte aktuální hru (skóre %1$d).</string>
+    <string name="new_game_confirm_ok">Začít</string>
+
+    <!-- Settings -->
+    <string name="frame_delay_label">Rychlost animace</string>
+    <string name="frame_delay_sub">Prodleva mezi kroky kaskády</string>
+    <string name="delay_250">250 ms</string>
+    <string name="delay_500">500 ms</string>
+    <string name="delay_off">Okamžitě</string>
+    <string name="haptics_label">Haptická odezva</string>
+    <string name="haptics_sub">Vibrace při každém dokončeném tahu</string>
+    <string name="show_hint_label">Zobrazit tlačítko Nápověda</string>
+    <string name="show_hint_sub">Nabídnout nápovědu během hry</string>
+    <string name="reset_high">Vynulovat nejlepší skóre</string>
+
+    <!-- About dialog -->
+    <string name="about_title">kGems</string>
+    <string name="about_version">Verze %1$s</string>
+    <string name="about_author">od Ondřeje Koloničného, OK1CDJ</string>
+    <string name="about_desc">Logická hra na skládání trojic pro Mudita Kompakt. Prohoď dva sousední kameny tak, aby vznikla řada tří a více stejných; ty zmizí, ostatní spadnou dolů a shora napadají nové — často se spustí kaskáda. Plně offline — bez sítě, bez oprávnění.</string>
+    <string name="about_license">Licence: GPL-3.0</string>
+    <string name="about_credits">Inspirováno hrou Shariki, původní hrou na skládání trojic od Eugena Alemzhina (1994).</string>
+    <string name="about_github">GitHub</string>
+    <string name="about_coffee">Kup mi kávu</string>
+</resources>
