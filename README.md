@@ -84,4 +84,4 @@ package line.
 
 **GPL-3.0-or-later.** See [`LICENSE`](LICENSE).
 
-Copyright © 2026 Ondřej Koloničný, OK1CDJ.
+Copyright © 2026 Ondřej Koloničný.
